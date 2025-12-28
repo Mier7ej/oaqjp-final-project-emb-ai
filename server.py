@@ -9,13 +9,13 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route("/sentimentAnalyzer")
-def emotion_detector():
+@app.route("/emotionDetector", methods=['GET', 'POST'])
+def emotion_detector_route():
     # Retrieve the text to analyze from the request arguments
     text_to_analyze = request.args.get('textToAnalyze')
 
     # Pass the text to the emotion_detector function and store the response
-    response = emotion_detector(text_to_analyze)
+    result = emotion_detector(text_to_analyze)
 
     # Return a formatted string
     response = (
@@ -25,7 +25,7 @@ def emotion_detector():
         f"'fear': {result['fear']}, "
         f"'joy': {result['joy']} and "
         f"'sadness': {result['sadness']}. "
-        f"The dominant emotion is {result['dominant']}."
+        f"The dominant emotion is <b>{result['dominant']}</b>."
     )
 
     return response
