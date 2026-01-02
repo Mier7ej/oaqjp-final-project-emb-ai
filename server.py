@@ -27,9 +27,9 @@ def emotion_detector_route():
         f"'sadness': {result['sadness']}. "
         f"The dominant emotion is <b>{result['dominant']}</b>."
     )
-
-    return response
-
-
+    if result['dominant'] is None:
+        return "Invalid input! Try again."
+    else:            
+        return response
 if __name__ == '__main__':
     app.run(host='localhost', port=5000)
