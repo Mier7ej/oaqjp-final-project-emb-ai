@@ -1,23 +1,22 @@
-#Import relevant functions.
+'''Emotion detection app'''
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
-
 app = Flask(__name__)
-
-#Render homepage.
+'''Import relevant functions.'''
 @app.route('/')
 def index():
+    '''Render homepage.'''
     return render_template('index.html')
-
 @app.route("/emotionDetector", methods=['GET', 'POST'])
 def emotion_detector_route():
-    # Retrieve the text to analyze from the request arguments
+    """
+    Detect the dominant emotion from the given text.
+
+    Args:
+        text_to_analyze (str): Text input to analyze.
+    """
     text_to_analyze = request.args.get('textToAnalyze')
-
-    # Pass the text to the emotion_detector function and store the response
     result = emotion_detector(text_to_analyze)
-
-    # Return a formatted string
     response = (
         f"For the given statement, the system response is "
         f"'anger': {result['anger']}, "
@@ -29,7 +28,6 @@ def emotion_detector_route():
     )
     if result['dominant'] is None:
         return "Invalid input! Try again."
-    else:            
-        return response
+    return response
 if __name__ == '__main__':
     app.run(host='localhost', port=5000)
